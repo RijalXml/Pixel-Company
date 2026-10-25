@@ -19,14 +19,14 @@ export const DEFAULT_PIPELINE_ROLES: EmployeeRole[] = [
 ];
 
 export const ROLE_STEP_TITLES: Record<EmployeeRole, string> = {
-  ceo: 'Pengesahan Akhir CEO',
-  pm: 'Pembagian Tugas & Rencana Kerja',
-  researcher: 'Riset Kebutuhan & Analisis',
-  designer: 'Desain Visual & Antarmuka UI',
-  writer: 'Penyusunan Copywriting & Panduan',
-  developer: 'Implementasi Kode & Logika',
-  qa: 'Pengujian Mutu & Verifikasi Bug',
-  reviewer: 'Audit Kualitas & Verifikasi',
+  ceo: 'Pengesahan Rilis Software CEO',
+  pm: 'Software Requirements (SRS) & Scope Fitur',
+  researcher: 'Riset Arsitektur & Tech Stack Web/APK',
+  designer: 'Desain Antarmuka UI/UX Mobile & Web',
+  writer: 'Penyusunan Copywriting & Metadata App',
+  developer: 'Implementasi Kode Sumber Web / APK',
+  qa: 'Pengujian Mutu Software & Verifikasi Bug',
+  reviewer: 'Audit Kode & Verifikasi Rilis',
 };
 
 export function createInitialTask(
@@ -42,50 +42,50 @@ export function createInitialTask(
     {
       role: 'pm',
       title: ROLE_STEP_TITLES.pm,
-      description: 'Menyusun alur kerja spesifik, target deliverable, dan penugasan tim.',
+      description: 'Menyusun dokumen SRS, user flow, target modul Web/APK, dan kriteria rilis.',
       status: 'in_progress',
       startedAt: now,
     },
     {
       role: 'researcher',
       title: ROLE_STEP_TITLES.researcher,
-      description: 'Mengumpulkan insight pasar, referensi kompetitor, dan spesifikasi.',
+      description: 'Menentukan tech stack optimal (React/Next.js/Kotlin/Flutter) dan dependensi library.',
       status: 'pending',
     },
     {
       role: 'designer',
       title: ROLE_STEP_TITLES.designer,
-      description: 'Merancang palet warna, layout UI, dan hierarki visual.',
+      description: 'Merancang wireframe layar mobile/desktop, color tokens HEX, dan alur interaksi.',
       status: 'pending',
     },
     {
       role: 'writer',
       title: ROLE_STEP_TITLES.writer,
-      description: 'Membuat narasi, salinan teks promosi, dan dokumentasi pengguna.',
+      description: 'Menyusun materi teks aplikasi, microcopy tombol, dan deskripsi listing Play Store/Web.',
       status: 'pending',
     },
     {
       role: 'developer',
       title: ROLE_STEP_TITLES.developer,
-      description: 'Membangun komponen teknis, kode implementasi, dan modul fungsi.',
+      description: 'Menulis kode sumber lengkap (HTML/React/TypeScript/Kotlin) yang siap dijalankan.',
       status: 'pending',
     },
     {
       role: 'qa',
       title: ROLE_STEP_TITLES.qa,
-      description: 'Menguji performa, memeriksa konsistensi, dan mensimulasikan edge-cases.',
+      description: 'Menjalankan skenario uji fungsional, performa APK/Web, responsivitas layar & zero-bug.',
       status: 'pending',
     },
     {
       role: 'reviewer',
       title: ROLE_STEP_TITLES.reviewer,
-      description: 'Menilai kesesuaian hasil terhadap perintah awal CEO.',
+      description: 'Audit arsitektur kode, evaluasi standar rilis, dan penerbitan berkas eksekutif.',
       status: 'pending',
     },
     {
       role: 'ceo',
       title: ROLE_STEP_TITLES.ceo,
-      description: 'Penyerahan dossier lengkap kepada CEO INTI.',
+      description: 'Penyerahan bundle aplikasi lengkap beserta kode sumber kepada CEO INTI.',
       status: 'pending',
     },
   ];

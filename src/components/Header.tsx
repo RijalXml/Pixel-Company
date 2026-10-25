@@ -40,11 +40,11 @@ export const Header: React.FC<HeaderProps> = ({
                 INTI
               </h1>
               <span className="rounded bg-purple-950/80 px-1.5 py-0.5 font-pixel text-[9px] text-purple-300 border border-purple-700">
-                16-BIT CORP
+                WEB & APK STUDIO
               </span>
             </div>
             <p className="font-terminal text-xs text-slate-400">
-              Pixel AI Company Simulator & Autonomous Workflow
+              Pixel AI Studio: Spesialis Pembuatan Web, APK Android, Game & Software
             </p>
           </div>
         </div>
@@ -58,10 +58,10 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'border-emerald-500 bg-emerald-950/70 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
                 : 'border-amber-500 bg-amber-950/70 text-amber-300'
             }`}
-            title={isAiLive ? 'Gemini 3.8 Flash aktif di server' : 'Mode simulasi deterministik (tanpa API key)'}
+            title={isAiLive ? 'Google Gemini 3.1 Flash Lite aktif di server' : 'Mode simulasi deterministik (tanpa API key)'}
           >
             <Sparkles className="h-3 w-3" />
-            <span>{isAiLive ? 'AI LIVE (GEMINI 3.8)' : 'MODE SIMULASI'}</span>
+            <span>{isAiLive ? 'AI LIVE (GEMINI 3.1 LITE)' : 'MODE SIMULASI'}</span>
           </div>
 
           {/* Pause / Play Button */}

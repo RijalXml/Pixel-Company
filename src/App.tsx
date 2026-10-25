@@ -81,7 +81,7 @@ export default function App() {
         setIsAiLive(Boolean(data.aiAvailable));
         addLog(
           data.aiAvailable
-            ? 'Terhubung ke server Gemini AI (gemini-3.8-flash aktif).'
+            ? 'Terhubung ke server Gemini AI (gemini-3.1-flash-lite aktif untuk Web & APK Studio).'
             : 'Server berjalan dalam Mode Simulasi Perusahaan (SIMULASI).',
           'SISTEM',
           'system'
@@ -93,11 +93,49 @@ export default function App() {
       });
 
     // Seed default welcome task in history so CEO can inspect immediately
-    const sampleSeedTask = createInitialTask('Buat rancangan portal e-commerce modern', 'normal');
+    const sampleSeedTask = createInitialTask('Bikin Web E-Commerce Toko Pakaian & APK Mobile', 'normal');
     sampleSeedTask.status = 'selesai';
-    sampleSeedTask.finalDeliverable = `# LAPORAN SELESAI: Portal E-Commerce Modern
-Departemen Terkait: PM, Riset, Desain, Penulisan, Dev, QA, Reviewer
-Hasil: Terverifikasi siap rilis dengan standar mutu 98/100.`;
+    sampleSeedTask.steps[4].output = `### ARSITEKTUR & KODE IMPLEMENTASI (REACT / TYPESCRIPT)
+\`\`\`typescript
+// Core E-Commerce Store Engine
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  inStock: boolean;
+}
+
+export class StoreManager {
+  private cart: Map<string, number> = new Map();
+
+  addToCart(productId: string, quantity: number = 1): void {
+    const current = this.cart.get(productId) || 0;
+    this.cart.set(productId, current + quantity);
+    console.log(\`[Cart] Added \${quantity} of item \${productId}\`);
+  }
+
+  getTotal(products: Product[]): number {
+    let total = 0;
+    this.cart.forEach((qty, id) => {
+      const p = products.find(prod => prod.id === id);
+      if (p) total += p.price * qty;
+    });
+    return total;
+  }
+}
+\`\`\`
+- Siap diekspor ke Web (React/Next.js) dan APK Android (Capacitor/React Native).`;
+    sampleSeedTask.finalDeliverable = `# LAPORAN RESMI PROYEK: Bikin Web E-Commerce Toko Pakaian & APK Mobile
+Perusahaan: INTI Virtual AI Corp (Web & APK Studio)
+Status: TERVERIFIKASI & SELESAI
+Nilai Uji Mutu QA: 98/100
+
+1. PM: Target web responsive dan bundle APK Android selesai dirancang.
+2. Riset: Rekomendasi Next.js 15 untuk Web dan React Native / Capacitor untuk APK.
+3. Desain: Palet dark retro #0b0f19, cyan #00e5ff, dan gold #ffd166.
+4. Kode: Modul keranjang belanja dan checkout terverifikasi lolos uji.
+5. Reviewer: [STATUS: APPROVED] Siap rilis.`;
     setTaskHistory([sampleSeedTask]);
   }, [addLog]);
 

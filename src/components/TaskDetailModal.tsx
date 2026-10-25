@@ -11,12 +11,24 @@ interface TaskDetailModalProps {
 
 export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ task, onClose }) => {
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<'steps' | 'final' | 'history'>('steps');
+  const [activeTab, setActiveTab] = useState<'steps' | 'final' | 'history' | 'code'>('steps');
+
+  // Extract developer code if available
+  const devStep = task.steps.find((s) => s.role === 'developer');
+  const codeBlockMatch = devStep?.output?.match(/```(?:typescript|javascript|html|kotlin|jsx|tsx)?([\s\S]*?)```/);
+  const extractedCode = codeBlockMatch ? codeBlockMatch[1].trim() : (devStep?.output || '');
 
   const handleCopy = () => {
     playClickSound();
     const content = task.finalDeliverable || JSON.stringify(task, null, 2);
     navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleCopyCode = () => {
+    playClickSound();
+    navigator.clipboard.writeText(extractedCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -28,7 +40,7 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ task, onClose 
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `INTI-LAPORAN-${task.id.replace('#', '')}.md`;
+    a.download = `INTI-PROJECT-${task.id.replace('#', '')}.md`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -71,35 +83,46 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ task, onClose 
           <button
             type="button"
             onClick={() => setActiveTab('steps')}
-            className={`border-b-2 px-4 py-2 font-pixel text-xs transition-colors ${
+            className={`border-b-2 px-3 sm:px-4 py-2 font-pixel text-xs transition-colors ${
               activeTab === 'steps'
                 ? 'border-cyan-400 text-cyan-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            Alur Departemen ({task.steps.length})
+            Alur ({task.steps.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('code')}
+            className={`border-b-2 px-3 sm:px-4 py-2 font-pixel text-xs transition-colors ${
+              activeTab === 'code'
+                ? 'border-emerald-400 text-emerald-300'
+                : 'border-transparent text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            💻 Kode Web/APK
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('final')}
-            className={`border-b-2 px-4 py-2 font-pixel text-xs transition-colors ${
+            className={`border-b-2 px-3 sm:px-4 py-2 font-pixel text-xs transition-colors ${
               activeTab === 'final'
                 ? 'border-amber-400 text-amber-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            Dossier Laporan Lengkap
+            Dossier Laporan
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('history')}
-            className={`border-b-2 px-4 py-2 font-pixel text-xs transition-colors ${
+            className={`border-b-2 px-3 sm:px-4 py-2 font-pixel text-xs transition-colors ${
               activeTab === 'history'
                 ? 'border-purple-400 text-purple-300'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
             }`}
           >
-            Riwayat Serah Terima ({task.history.length})
+            Serah Terima ({task.history.length})
           </button>
         </div>
 
@@ -164,6 +187,51 @@ export const TaskDetailModal: React.FC<TaskDetailModalProps> = ({ task, onClose 
                   )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {activeTab === 'code' && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-[#1b263b] pb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">💻</span>
+                  <div>
+                    <span className="font-pixel text-xs text-emerald-300">
+                      HASIL IMPLEMENTASI KODE SUMBER (WEB / APK / SOFTWARE)
+                    </span>
+                    <p className="font-terminal text-xs text-slate-400">
+                      Dibuat oleh Lead Software Engineer (Budi Kurnia)
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCopyCode}
+                    className="flex items-center gap-1 rounded border border-[#273859] bg-[#121c33] px-3 py-1 font-terminal text-xs text-cyan-300 hover:border-cyan-400"
+                  >
+                    {copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
+                    <span>{copied ? 'Tersalin!' : 'Salin Kode'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {devStep?.output ? (
+                <div className="space-y-3">
+                  <div className="rounded-lg border-2 border-emerald-900/60 bg-[#060a14] p-4 font-mono text-xs text-emerald-300 whitespace-pre-wrap leading-relaxed max-h-[55vh] overflow-y-auto">
+                    {devStep.output}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center p-8 text-center text-slate-400">
+                  <span className="text-3xl mb-2">💻</span>
+                  <p className="font-pixel text-xs text-slate-300">Developer Sedang Menunggu Berkas</p>
+                  <p className="font-terminal text-sm mt-1">
+                    Kode lengkap Web / APK akan langsung muncul setelah Developer menerima berkas dari Designer.
+                  </p>
+                </div>
+              )}
             </div>
           )}
 

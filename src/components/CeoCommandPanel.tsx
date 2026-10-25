@@ -13,12 +13,42 @@ interface CeoCommandPanelProps {
   aiAvailable: boolean;
 }
 
-const QUICK_EXAMPLES = [
-  'Buat website toko pakaian retro',
-  'Analisis ide bisnis AI Customer Service',
-  'Buat desain poster promosi kopi artisan',
-  'Buat aplikasi kalkulator cerdas TypeScript',
-  'Rancang kampanye peluncuran aplikasi mobile',
+interface SoftwareCategory {
+  label: string;
+  icon: string;
+  examples: string[];
+}
+
+const SOFTWARE_CATEGORIES: SoftwareCategory[] = [
+  {
+    label: 'Web Application',
+    icon: '🌐',
+    examples: [
+      'Bikin Web E-Commerce Toko Baju & Keranjang Belanja',
+      'Bikin Web Dashboard Analytics & CRM Pelanggan',
+      'Bikin Web Portal Berita & Blog Modern',
+      'Bikin Web SaaS Landing Page & Pricing Calculator',
+    ],
+  },
+  {
+    label: 'Android APK / Mobile',
+    icon: '📱',
+    examples: [
+      'Bikin APK Android Kasir Pintar & Cetak Struk (POS)',
+      'Bikin APK Android Manajemen Keuangan & Catat Pengeluaran',
+      'Bikin APK Android Absensi Karyawan & GPS Kantor',
+      'Bikin APK Android Todo List & Pengingat Harian',
+    ],
+  },
+  {
+    label: 'Game & Tools',
+    icon: '🎮',
+    examples: [
+      'Bikin Game Web 2D Pixel Endless Runner',
+      'Bikin Tools Generator QR Code & Barcode Scanner',
+      'Bikin Game Kuis Trivia Interaktif dengan Skor',
+    ],
+  },
 ];
 
 export const CeoCommandPanel: React.FC<CeoCommandPanelProps> = ({
@@ -32,6 +62,7 @@ export const CeoCommandPanel: React.FC<CeoCommandPanelProps> = ({
   const [promptInput, setPromptInput] = useState('');
   const [priority, setPriority] = useState<TaskPriority>('normal');
   const [showHistory, setShowHistory] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<number>(0);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,10 +89,10 @@ export const CeoCommandPanel: React.FC<CeoCommandPanelProps> = ({
           </div>
           <div>
             <h2 className="font-pixel text-sm text-amber-300 sm:text-base">
-              Apa yang ingin kamu buat hari ini?
+              Apa yang ingin kamu buat hari ini? (Web, APK, Game & Tool)
             </h2>
             <p className="font-terminal text-sm text-slate-400">
-              Panel Komando CEO INTI — Beri perintah dan pantau pengerjaan tim
+              Panel Komando CEO INTI — Studio Khusus Pembuatan Web App, Android APK & Software AI
             </p>
           </div>
         </div>
@@ -76,29 +107,52 @@ export const CeoCommandPanel: React.FC<CeoCommandPanelProps> = ({
             className="flex items-center gap-1.5 rounded border border-[#2e3b55] bg-[#141d33] px-3 py-1.5 font-terminal text-sm text-slate-300 hover:border-cyan-400 hover:text-cyan-300"
           >
             <History className="h-4 w-4" />
-            <span>Riwayat ({taskHistory.length})</span>
+            <span>Riwayat Proyek ({taskHistory.length})</span>
           </button>
         </div>
       </div>
 
       {/* Main Form */}
       <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+        {/* Category Tabs */}
+        <div className="flex flex-wrap items-center gap-1.5 border-b border-[#18233a] pb-2.5">
+          <span className="font-terminal text-xs text-slate-400 mr-1">Fokus Proyek:</span>
+          {SOFTWARE_CATEGORIES.map((cat, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                playClickSound();
+                setActiveCategory(idx);
+              }}
+              className={`flex items-center gap-1.5 rounded-lg border px-3 py-1 font-terminal text-xs transition-colors ${
+                activeCategory === idx
+                  ? 'border-cyan-400 bg-cyan-950/80 text-cyan-200 font-bold shadow-[0_0_8px_rgba(0,229,255,0.25)]'
+                  : 'border-[#1e2a42] bg-[#0c1426] text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <span>{cat.icon}</span>
+              <span>{cat.label}</span>
+            </button>
+          ))}
+        </div>
+
         <div className="relative">
           <textarea
             value={promptInput}
             onChange={(e) => setPromptInput(e.target.value)}
-            placeholder="Tuliskan perintah bebas untuk seluruh tim perusahaan... (contoh: 'Buat website toko pakaian modern dengan keranjang belanja')"
+            placeholder="Tuliskan spesifikasi Web atau APK Android yang ingin kamu buat... (contoh: 'Bikin APK kasir toko kelontong dengan fitur cetak struk dan laporan harian' atau 'Bikin web e-commerce toko baju modern')"
             rows={3}
             className="w-full resize-none rounded-lg border-2 border-[#1e293b] bg-[#080d1a] p-3 font-sans text-sm text-slate-100 placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400"
           />
         </div>
 
-        {/* Quick Example Chips */}
-        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+        {/* Quick Example Chips for active category */}
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
           <span className="font-terminal text-xs text-slate-400 flex items-center gap-1">
-            <Sparkles className="h-3 w-3 text-cyan-400" /> Contoh:
+            <Sparkles className="h-3 w-3 text-cyan-400" /> Contoh Cepat:
           </span>
-          {QUICK_EXAMPLES.map((ex, i) => (
+          {SOFTWARE_CATEGORIES[activeCategory].examples.map((ex, i) => (
             <button
               key={i}
               type="button"
