@@ -263,7 +263,12 @@ app.post('/api/worker/execute', async (req, res) => {
 
       contextPrompt += `\nSilakan buat hasil pekerjaan terbaikmu untuk tahap [${role.toUpperCase()}] sekarang:`;
 
-      const response = await ai.models.generateContent({
+      // Call Gemini API with a strict 3500ms timeout to prevent worker from getting stuck
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('TIMEOUT_3500MS')), 3500)
+      );
+
+      const aiPromise = ai.models.generateContent({
         model: 'gemini-3.8-flash',
         contents: contextPrompt,
         config: {
@@ -272,6 +277,7 @@ app.post('/api/worker/execute', async (req, res) => {
         },
       });
 
+      const response = await Promise.race([aiPromise, timeoutPromise]);
       const responseText = response.text || '';
       const isRevision = responseText.includes('[STATUS: REVISION]') || (role === 'reviewer' && responseText.toLowerCase().includes('perlu revisi'));
       const decision: 'APPROVED' | 'REVISION' = isRevision ? 'REVISION' : 'APPROVED';
@@ -285,14 +291,14 @@ app.post('/api/worker/execute', async (req, res) => {
         isAi: true,
       });
     } catch (err) {
-      console.error('[Gemini API Worker Error]', err);
-      // Fallback gracefully if rate limit or network issue occurs
+      console.warn(`[Worker API] Fallback triggered for role "${role}":`, (err as Error).message);
+      // Fast fallback to simulated output when timeout or error occurs
       const fallback = generateSimulatedOutput(role, prompt, taskTitle);
       return res.json({
         success: true,
         role,
         output: fallback.output,
-        notes: `Simulasi fallback (Mode Cadangan): ${fallback.notes}`,
+        notes: `Simulasi fallback (Mode Respons Cepat): ${fallback.notes}`,
         decision: fallback.decision,
         isAi: false,
       });
