@@ -1,0 +1,6 @@
+{
+  "name": "INTI — Pixel AI Company Simulator",
+  "description": "Simulasi perusahaan virtual berbasis AI dengan kantor 2D pixel art 16-bit, karyawan hidup, animasi oper berkas, dan AI worker Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,138 @@
+import { EmployeeInfo, EmployeeRole } from '../types/company';
+
+export const INITIAL_EMPLOYEES: EmployeeInfo[] = [
+  {
+    id: 'emp-ceo',
+    role: 'ceo',
+    name: 'Rijal (CEO)',
+    title: 'Chief Executive Officer',
+    hairColor: '#2b2d42',
+    shirtColor: '#1d3557', // Navy suit
+    pantsColor: '#111827',
+    skinColor: '#ffd1a4',
+    specialty: 'Vision, Pengarah Strategis & Keputusan Akhir',
+    deskX: 160,
+    deskY: 130,
+    facing: 'down',
+  },
+  {
+    id: 'emp-pm',
+    role: 'pm',
+    name: 'Maya Putri',
+    title: 'Lead Project Manager',
+    hairColor: '#8338ec',
+    shirtColor: '#9d4edd', // Purple
+    pantsColor: '#212529',
+    skinColor: '#ffe5b4',
+    specialty: 'Pembagian Tugas, Timeline & Alur Kerja',
+    deskX: 360,
+    deskY: 130,
+    facing: 'down',
+  },
+  {
+    id: 'emp-researcher',
+    role: 'researcher',
+    name: 'Dr. Aris',
+    title: 'Senior Market & Tech Researcher',
+    hairColor: '#e0a96d',
+    shirtColor: '#00b4d8', // Cyan
+    pantsColor: '#1f2937',
+    skinColor: '#ffd1a4',
+    specialty: 'Riset Pasar, Kebutuhan & Analisis Data',
+    deskX: 560,
+    deskY: 130,
+    facing: 'down',
+  },
+  {
+    id: 'emp-designer',
+    role: 'designer',
+    name: 'Luna Chandra',
+    title: 'Lead UI/UX & Visual Designer',
+    hairColor: '#ff006e',
+    shirtColor: '#ff758f', // Rose Pink
+    pantsColor: '#1e1b4b',
+    skinColor: '#fbe8d3',
+    specialty: 'Konsep Visual, Palet Warna & Wireframe',
+    deskX: 740,
+    deskY: 130,
+    facing: 'down',
+  },
+  {
+    id: 'emp-developer',
+    role: 'developer',
+    name: 'Budi Kurnia',
+    title: 'Senior Software Engineer',
+    hairColor: '#3a0ca3',
+    shirtColor: '#06d6a0', // Mint Green
+    pantsColor: '#111827',
+    skinColor: '#f3c68f',
+    specialty: 'Arsitektur Kode, Frontend & Backend Logic',
+    deskX: 160,
+    deskY: 310,
+    facing: 'down',
+  },
+  {
+    id: 'emp-writer',
+    role: 'writer',
+    name: 'Dewi Lestari',
+    title: 'Content & Technical Copywriter',
+    hairColor: '#582f0e',
+    shirtColor: '#f77f00', // Amber Orange
+    pantsColor: '#343a40',
+    skinColor: '#ffd8be',
+    specialty: 'Pesan Brand, Copywriting & Dokumentasi',
+    deskX: 360,
+    deskY: 310,
+    facing: 'down',
+  },
+  {
+    id: 'emp-qa',
+    role: 'qa',
+    name: 'Reza Pratama',
+    title: 'Lead QA & Test Specialist',
+    hairColor: '#495057',
+    shirtColor: '#4cc9f0', // Sky Blue
+    pantsColor: '#1f2421',
+    skinColor: '#ffd1a4',
+    specialty: 'Pengujian Mutu, Deteksi Bug & Edge Cases',
+    deskX: 560,
+    deskY: 310,
+    facing: 'down',
+  },
+  {
+    id: 'emp-reviewer',
+    role: 'reviewer',
+    name: 'Hendra Gunawan',
+    title: 'Principal Auditor & Quality Reviewer',
+    hairColor: '#adb5bd',
+    shirtColor: '#ffd166', // Gold Yellow
+    pantsColor: '#1b263b',
+    skinColor: '#fed9b7',
+    specialty: 'Evaluasi Mutu Akhir, Standar & Persetujuan',
+    deskX: 740,
+    deskY: 310,
+    facing: 'down',
+  },
+];
+
+export const ROLE_ICONS: Record<EmployeeRole, string> = {
+  ceo: '👑',
+  pm: '📋',
+  researcher: '🔍',
+  designer: '🎨',
+  developer: '💻',
+  writer: '✍️',
+  qa: '🧪',
+  reviewer: '⚖️',
+};
+
+export const ROLE_BADGE_COLORS: Record<EmployeeRole, { bg: string; text: string; border: string }> = {
+  ceo: { bg: 'bg-indigo-950/80', text: 'text-indigo-300', border: 'border-indigo-500' },
+  pm: { bg: 'bg-purple-950/80', text: 'text-purple-300', border: 'border-purple-500' },
+  researcher: { bg: 'bg-cyan-950/80', text: 'text-cyan-300', border: 'border-cyan-500' },
+  designer: { bg: 'bg-pink-950/80', text: 'text-pink-300', border: 'border-pink-500' },
+  developer: { bg: 'bg-emerald-950/80', text: 'text-emerald-300', border: 'border-emerald-500' },
+  writer: { bg: 'bg-amber-950/80', text: 'text-amber-300', border: 'border-amber-500' },
+  qa: { bg: 'bg-blue-950/80', text: 'text-blue-300', border: 'border-blue-500' },
+  reviewer: { bg: 'bg-yellow-950/80', text: 'text-yellow-300', border: 'border-yellow-500' },
+};
